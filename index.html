@@ -3,107 +3,119 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Socialhub - Social Media Manager</title>
+<title>Socialhub Dashboard</title>
 
 <style>
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 body {
-    font-family: Arial, sans-serif;
-    background: #0f172a;
-    color: white;
+  font-family: Arial, sans-serif;
+  background: #0b1120;
+  color: white;
 }
 
 header {
-    padding: 22px;
-    background: #111827;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  background: #111827;
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .logo {
-    font-size: 25px;
-    font-weight: bold;
-    color: #38bdf8;
+  font-size: 25px;
+  font-weight: bold;
+  color: #38bdf8;
 }
 
 .container {
-    padding: 25px 18px;
-    max-width: 1000px;
-    margin: auto;
-}
-
-h1 {
-    font-size: 28px;
-    margin-bottom: 10px;
+  max-width: 1100px;
+  margin: auto;
+  padding: 25px 18px;
 }
 
 .subtitle {
-    color: #94a3b8;
-    margin-bottom: 30px;
+  color: #94a3b8;
+  margin: 12px 0 25px;
 }
 
 .stats {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 15px;
-    margin-bottom: 35px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 15px;
+  margin-bottom: 35px;
 }
 
-.stat-card {
-    background: #1e293b;
-    padding: 20px;
-    border-radius: 12px;
+.card {
+  background: #1e293b;
+  padding: 20px;
+  border-radius: 12px;
 }
 
-.stat-card h2 {
-    color: #38bdf8;
-    margin-bottom: 8px;
+.card h2 {
+  color: #38bdf8;
+  margin-bottom: 8px;
 }
 
-.section-title {
-    margin-bottom: 18px;
+h3 {
+  margin-bottom: 15px;
 }
 
 .platforms {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-    gap: 15px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 15px;
 }
 
 .platform {
-    background: #1e293b;
-    padding: 22px 15px;
-    border-radius: 12px;
-    text-align: center;
-}
-
-.platform h3 {
-    margin-bottom: 15px;
+  background: #1e293b;
+  padding: 22px;
+  border-radius: 12px;
 }
 
 button {
-    background: #2563eb;
-    color: white;
-    border: none;
-    padding: 10px 16px;
-    border-radius: 7px;
-    cursor: pointer;
+  background: #2563eb;
+  color: white;
+  border: none;
+  padding: 11px 16px;
+  border-radius: 7px;
+  margin-top: 12px;
+  cursor: pointer;
 }
 
 button:hover {
-    background: #1d4ed8;
+  background: #1d4ed8;
+}
+
+.section {
+  margin-top: 35px;
+}
+
+textarea {
+  width: 100%;
+  min-height: 110px;
+  background: #1e293b;
+  color: white;
+  border: 1px solid #475569;
+  padding: 15px;
+  border-radius: 10px;
+  margin-top: 12px;
 }
 
 footer {
-    text-align: center;
-    padding: 35px;
-    color: #94a3b8;
+  text-align: center;
+  padding: 30px;
+  color: #94a3b8;
+}
+
+@media(max-width:500px) {
+  .platforms {
+    grid-template-columns: 1fr;
+  }
 }
 </style>
 </head>
@@ -111,67 +123,128 @@ footer {
 <body>
 
 <header>
-    <div class="logo">Socialhub</div>
-    <div>Dashboard</div>
+  <div class="logo">Socialhub</div>
+  <div>Dashboard</div>
 </header>
 
 <div class="container">
 
-    <h1>Welcome to Socialhub 👋</h1>
-    <p class="subtitle">
-        Manage all your social media accounts in one place.
-    </p>
+<h1>Welcome to Socialhub 👋</h1>
 
-    <div class="stats">
+<p class="subtitle">
+Manage all your social media accounts in one place.
+</p>
 
-        <div class="stat-card">
-            <h2>0</h2>
-            <p>Connected Accounts</p>
-        </div>
+<div class="stats">
 
-        <div class="stat-card">
-            <h2>0</h2>
-            <p>Published Posts</p>
-        </div>
+<div class="card">
+<h2 id="accounts">0</h2>
+<p>Connected Accounts</p>
+</div>
 
-    </div>
+<div class="card">
+<h2>0</h2>
+<p>Published Posts</p>
+</div>
 
-    <h2 class="section-title">Connect Your Platforms</h2>
+<div class="card">
+<h2>0</h2>
+<p>Total Followers</p>
+</div>
 
-    <div class="platforms">
+<div class="card">
+<h2>₹0</h2>
+<p>Total Earnings</p>
+</div>
 
-        <div class="platform">
-            <h3>Instagram</h3>
-            <button onclick="comingSoon()">Connect</button>
-        </div>
+</div>
 
-        <div class="platform">
-            <h3>Facebook</h3>
-            <button onclick="comingSoon()">Connect</button>
-        </div>
+<div class="section">
+<h3>Connect Your Platforms</h3>
 
-        <div class="platform">
-            <h3>YouTube</h3>
-            <button onclick="comingSoon()">Connect</button>
-        </div>
+<div class="platforms">
 
-        <div class="platform">
-            <h3>X (Twitter)</h3>
-            <button onclick="comingSoon()">Connect</button>
-        </div>
+<div class="platform">
+<h3>📸 Instagram</h3>
+<p>Manage Instagram accounts.</p>
+<button onclick="connect(this)">Connect</button>
+</div>
 
-    </div>
+<div class="platform">
+<h3>📘 Facebook</h3>
+<p>Manage Facebook pages.</p>
+<button onclick="connect(this)">Connect</button>
+</div>
+
+<div class="platform">
+<h3>▶️ YouTube</h3>
+<p>Manage your YouTube channel.</p>
+<button onclick="connect(this)">Connect</button>
+</div>
+
+<div class="platform">
+<h3>𝕏 X (Twitter)</h3>
+<p>Manage your X account.</p>
+<button onclick="connect(this)">Connect</button>
+</div>
+
+</div>
+</div>
+
+<div class="section">
+<h3>📝 Create a Post</h3>
+
+<textarea id="post"
+placeholder="Write your post here..."></textarea>
+
+<br>
+
+<button onclick="publish()">
+Publish Post
+</button>
+
+<p id="message"></p>
+</div>
+
+<div class="section">
+<h3>📊 Analytics</h3>
+<div class="card">
+<p>Followers: Coming Soon</p>
+<br>
+<p>Engagement: Coming Soon</p>
+<br>
+<p>Post Performance: Coming Soon</p>
+</div>
+</div>
 
 </div>
 
 <footer>
-    © 2026 Socialhub. All rights reserved.
+© 2026 Socialhub. All rights reserved.
 </footer>
 
 <script>
-function comingSoon() {
-    alert("Social media integration is coming soon!");
+
+let connected = 0;
+
+function connect(button) {
+  alert("Real API integration will be added next.");
 }
+
+function publish() {
+  let post = document.getElementById("post").value;
+
+  if(post.trim() === "") {
+    alert("Please write something first!");
+    return;
+  }
+
+  document.getElementById("message").innerText =
+  "Post saved in demo mode!";
+
+  document.getElementById("post").value = "";
+}
+
 </script>
 
 </body>
