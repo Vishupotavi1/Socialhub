@@ -223,27 +223,176 @@ Publish Post
 © 2026 Socialhub. All rights reserved.
 </footer>
 
-<script>
+<script type="module">
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
-let connected = 0;
+// अपनी Supabase जानकारी यहाँ डालो
+const SUPABASE_URL = "https://tccjefcoqzjzevdkofih.supabase.co";
+const SUPABASE_KEY = "sb_publishable_rdMYvBThMnv7QIrB2mN_zA_lmWQ6CJt"
 
-function connect(button) {
-  alert("Real API integration will be added next.");
+const sb = createClient(SUPABASE_URL, SUPABASE_KEY);
+
+const authBox = document.createElement("div");
+
+authBox.innerHTML = `
+<div style="max-width:400px;margin:40px auto;padding:25px;background:#1e293b;border-radius:15px;color:white;font-family:Arial">
+<h2 style="color:#38bdf8">Socialhub Account</h2>
+
+<div style="display:flex;gap:10px;margin:20px 0">
+<button id="signupTab">Sign Up</button>
+<button id="loginTab">Login</button>
+</div>
+
+<form id="authForm">
+<input id="email" type="email" placeholder="Email Address" required
+style="width:100%;padding:14px;margin:10px 0">
+
+<input id="password" type="password" placeholder="Password" required
+style="width:100%;padding:14px;margin:10px 0">
+
+<button id="submitBtn" type="submit">Create Account</button>
+</form>
+
+<button id="forgotBtn">Forgot Password?</button>
+<p id="authMessage" style="margin-top:15px"></p>
+</div>
+`;
+
+document.body.prepend(authBox);
+
+let mode = "signup";
+
+const message = document.getElementById("authMessage");
+
+function setMode(newMode) {
+mode = newMode;
+
+document.getElementById("submitBtn").textContent =
+mode === "signup" ? "Create Account" : "Login";
 }
 
-function publish() {
-  let post = document.getElementById("post").value;
+document.getElementById("signupTab").onclick =
+() => setMode("signup");
 
-  if(post.trim() === "") {
-    alert("Please write something first!");
-    return;
-  }
+document.getElementById("loginTab").onclick =
+() => setMode("login");
 
-  document.getElementById("message").innerText =
-  "Post saved in demo mode!";
+document.getElementById("authForm").onsubmit = async (e) => {
+e.preventDefault();
 
-  document.getElementById("post").value = "";
+const email = document.getElementById("email").value;
+const password = document.getElementById("password").value;
+
+message.textContent = "Please wait...";
+
+let result;
+
+if (mode === "signup") {
+result = await sb.auth.signUp({
+email,
+password,
+options: {
+emailRedirectTo: location.origin + location.pathname
 }
+});
+} else {
+result = await sb.auth.signInWithPassword({
+email,
+password
+});
+}
+
+if (result.error) {
+message.textContent = result.error.message;
+} else if (mode === "signup") {
+message.textContent =
+"Account created! Check your email for verification.";
+} else {
+message.textContent = "Login successful!";
+}
+};
+
+document.getElementById("forgotBtn").onclick = async () => {
+const email = document.getElementById("email").value;
+
+if (!email) {
+message.textContent = "Enter your email first.";
+return;
+}
+
+const { error } = await sb.auth.resetPasswordForEmail(email, {
+redirectTo: location.origin + location.pathname
+});
+
+message.textContent = error
+? error.message
+: "Password reset email sent!";
+};
+
+const app = document.querySelectorAll(
+"header, .container, footer"
+);
+
+function showDashboard(session) {
+authBox.style.display = session ? "none" : "block";
+
+app.forEach(element => {
+element.style.display = session ? "" : "none";
+});
+
+let logout = document.getElementById("logoutBtn");
+
+if (session && !logout) {
+logout = document.createElement("button");
+logout.id = "logoutBtn";
+logout.textContent = "Logout";
+
+logout.onclick = async () => {
+await sb.auth.signOut();
+};
+
+document.querySelector("header").appendChild(logout);
+}
+
+if (!session && logout) logout.remove();
+}
+
+sb.auth.onAuthStateChange((event, session) => {
+showDashboard(session);
+
+if (event === "PASSWORD_RECOVERY") {
+const newPassword = prompt("Enter your new password:");
+
+if (newPassword) {
+sb.auth.updateUser({ password: newPassword })
+.then(({ error }) => {
+alert(error ? error.message : "Password updated!");
+});
+}
+}
+});
+
+const { data } = await sb.auth.getSession();
+showDashboard(data.session);
+
+// Existing demo functions
+window.connect = function() {
+alert("Real social media API integration coming soon!");
+};
+
+window.publish = function() {
+const post = document.getElementById("post").value;
+
+if (!post.trim()) {
+alert("Please write something first!");
+return;
+}
+
+document.getElementById("message").textContent =
+"Post saved in demo mode!";
+
+document.getElementById("post").value = "";
+};
 
 </script>
 
